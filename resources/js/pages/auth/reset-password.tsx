@@ -6,7 +6,7 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+import AuthSplitLayout from '@/layouts/auth/auth-split-layout';
 
 interface ResetPasswordProps {
     token: string;
@@ -36,7 +36,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
     };
 
     return (
-        <AuthLayout title="Reset password" description="Please enter your new password below">
+        <AuthSplitLayout title="Reset password" description="Please enter your new password below">
             <Head title="Reset password" />
 
             <form onSubmit={submit}>
@@ -93,6 +93,6 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
                     </Button>
                 </div>
             </form>
-        </AuthLayout>
+        </AuthSplitLayout>
     );
 }
