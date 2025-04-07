@@ -40,3 +40,39 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface Invoice {
+    id: number;
+    invoice_number: number;
+    status: string;
+    amount: number;
+    due_date: string;
+    created_at: string;
+    updated_at: string;
+    customer: Customer;
+    items: InvoiceItem[];
+    [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface Customer {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+}
+export interface InvoiceItem {
+    id: number;
+    description: string;
+    quantity: number;
+    unit_price: number;
+    total: number;
+    created_at: string;
+    updated_at: string;
+    invoice_id: number;
+    [key: string]: unknown; // This allows for additional properties...
+}
