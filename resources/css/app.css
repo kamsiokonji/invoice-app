@@ -178,6 +178,12 @@
     --sidebar-accent-foreground: oklch(0.26 0.0453 277.29);
     --sidebar-border: oklch(0.65 0.0511 277.06);
     --sidebar-ring: oklch(0.439 0 0);
+
+    --success: oklch(0.29 0.0405 260.35);
+    --success-foreground: oklch(0.78 0.1527 164.84);
+
+    --pending: oklch(0.28 0.0277 296.83);
+    --pending-foreground: oklch(0.76 0.177697 59.6859);
 }
 
 @layer base {
