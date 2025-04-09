@@ -4,6 +4,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,6 +15,8 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Invoices() {
     const isMobile = useIsMobile();
+    const [open, setOpen] = useState(false);
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Invoices" />
@@ -25,7 +28,7 @@ export default function Invoices() {
                     </span>
 
                     <div className="flex items-center gap-2">
-                        <Button className="h-12 rounded-3xl px-3 text-xs font-bold text-white">
+                        <Button className="h-12 rounded-3xl px-3 text-xs font-bold text-white" onClick={() => setOpen(true)}>
                             <img src="/plus.png" alt="" />
                             {isMobile ? 'New' : 'New Invoice'}
                         </Button>
