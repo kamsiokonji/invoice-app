@@ -16,6 +16,7 @@
 
     --color-background: var(--background);
     --color-foreground: var(--foreground);
+    --color-tertiary: var(--tertiary);
 
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
@@ -85,6 +86,7 @@
 :root {
     --background: oklch(0.98 0.004 286.33);
     --foreground: oklch(0.145 0 0);
+    --tertiary: oklch(0.64 0.0892 276.2);
 
     --card: oklch(1 0 0);
     --card-foreground: oklch(0.145 0 0);
@@ -108,8 +110,8 @@
     --destructive-foreground: oklch(0.78 0.1252 20.28);
 
     --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.87 0 0);
+    --input: oklch(0.92 0.0315 277.91);
+    --ring: oklch(0.66 0.1941 289.1);
 
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
@@ -138,6 +140,7 @@
 .dark {
     --background: oklch(0.21 0.03 277.59);
     --foreground: oklch(0.985 0 0);
+    --tertiary: oklch(0.92 0.0315 277.91);
 
     --card: oklch(0.26 0.0453 277.29);
     --card-foreground: oklch(0.985 0 0);
@@ -161,7 +164,7 @@
     --destructive-foreground: oklch(0.78 0.1252 20.28);
 
     --border: oklch(0.269 0 0);
-    --input: oklch(0.269 0 0);
+    --input: oklch(0.92 0.0315 277.91);
     --ring: oklch(0.439 0 0);
 
     --chart-1: oklch(0.488 0.243 264.376);

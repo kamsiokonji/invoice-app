@@ -2,6 +2,7 @@ import { InvoiceCard } from '@/components/invoice-card';
 import { Button } from '@/components/ui/button';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
+import CreateInvoice from '@/pages/invoices/create';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -41,6 +42,8 @@ export default function Invoices() {
                     ))}
                 </div>
             </div>
+
+            <CreateInvoice isOpen={open} onClose={() => setOpen(false)} />
         </AppLayout>
     );
 }
