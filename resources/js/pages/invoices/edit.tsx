@@ -7,12 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { paymentTerms } from '@/lib/constants';
 import { useState } from 'react';
 
-interface CreateInvoiceProps {
+interface EditInvoiceProps {
     isOpen: boolean;
     onClose: () => void;
 }
-
-export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
+export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
     const [selectedValue, setSelectedValue] = useState('');
 
     const getDisplayValue = () => {
@@ -21,7 +20,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
     };
 
     return (
-        <InvoiceSheet title="New Invoice" isOpen={isOpen} onClose={onClose}>
+        <InvoiceSheet title="Edit Invoice" isOpen={isOpen} onClose={onClose}>
             <div className="flex flex-col gap-4">
                 <form className="space-y-12">
                     <div className="flex flex-col gap-4">
@@ -144,23 +143,19 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                             </Label>
                             <Input type="text" placeholder="Project Description" />
                         </div>
-                    </div>
 
-                    <div className="flex flex-col gap-4">
-                        <div>
-                            <h1 className="font-semibold text-[#777F98]">Item List</h1>
+                        <div className="flex flex-col gap-4">
+                            <div>
+                                <h1 className="font-semibold text-[#777F98]">Item List</h1>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-end gap-2">
                         <Button className="text-tertiary rounded-3xl bg-[#f9fafe] py-6 font-semibold hover:bg-[#f9fafe] dark:text-[#888eb0]">
-                            Discard
-                        </Button>
-
-                        <div className="flex gap-2">
-                            <Button className="rounded-3xl bg-[#373b53] py-6 font-semibold text-[#888eb0] hover:bg-[#373b53]">Save as Draft</Button>
-                            <Button className="rounded-3xl py-6 font-semibold">Save & Send</Button>
-                        </div>
+                            Cancel
+                        </Button>{' '}
+                        <Button className="rounded-3xl py-6 font-semibold">Save Changes</Button>
                     </div>
                 </form>
             </div>
