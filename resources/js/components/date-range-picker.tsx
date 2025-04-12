@@ -8,9 +8,10 @@ import { useState } from 'react';
 
 export function DateRangePicker() {
     const [date, setDate] = useState<Date>();
+    const [open, setOpen] = useState(false);
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
                 <Button variant={'outline'} className={cn('h-12 justify-between text-left font-normal', !date && 'text-muted-foreground')}>
                     {date ? format(date, 'PPP') : <span className="text-tertiary">Pick a date</span>}
@@ -18,7 +19,15 @@ export function DateRangePicker() {
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
-                <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+                <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={(e) => {
+                        setDate(e);
+                        setOpen(false);
+                    }}
+                    initialFocus
+                />
             </PopoverContent>
         </Popover>
     );

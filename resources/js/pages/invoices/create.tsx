@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { paymentTerms } from '@/lib/constants';
+import { InvoiceItem } from '@/types';
 import { useState } from 'react';
 
 interface CreateInvoiceProps {
@@ -14,11 +15,31 @@ interface CreateInvoiceProps {
 
 export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
     const [selectedValue, setSelectedValue] = useState('');
+    const [items, setItems] = useState<InvoiceItem[]>([]);
+
+    const addNewItem = (e: React.FormEvent) => {
+        e.preventDefault();
+        setItems([...items, { name: '', quantity: 1, price: 0 }]);
+    };
+
+    const updateItem = (index: number, field: keyof InvoiceItem, value: string) => {
+        const updatedItems = [...items];
+        updatedItems[index] = { ...updatedItems[index], [field]: value };
+        setItems(updatedItems);
+    };
+
+    const calculateTotal = (item: InvoiceItem) => {
+        return item.quantity * item.price;
+    };
 
     const getDisplayValue = () => {
         const selected = paymentTerms.find((term) => term.value === selectedValue);
         return selected ? selected.name : '';
     };
+
+    function removeItem(index: number): void {
+        setItems((prevItems) => prevItems.filter((_, i) => i !== index));
+    }
 
     return (
         <InvoiceSheet title="New Invoice" isOpen={isOpen} onClose={onClose}>
@@ -35,7 +56,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                             <Input type="text" placeholder="Street Address" />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                        <div className="grid-cols grid gap-4 md:grid-cols-3">
                             <div className="flex flex-col gap-1">
                                 <Label className="text-tertiary text-xs" htmlFor="city">
                                     City
@@ -50,7 +71,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                                 <Input type="text" placeholder="Post Code" />
                             </div>
 
-                            <div className="col-sapn-2 flex flex-col gap-1">
+                            <div className="col-span-2 flex flex-col gap-1 md:col-span-1">
                                 <Label className="text-tertiary text-xs" htmlFor="country">
                                     Country
                                 </Label>
@@ -99,7 +120,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                                 <Input type="text" placeholder="Post Code" />
                             </div>
 
-                            <div className="flex flex-col gap-1">
+                            <div className="col-span-2 flex flex-col gap-1 md:col-span-1">
                                 <Label className="text-tertiary text-xs" htmlFor="country">
                                     Country
                                 </Label>
@@ -122,7 +143,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                                     Payment Terms
                                 </Label>
                                 <Select value={selectedValue} onValueChange={setSelectedValue}>
-                                    <SelectTrigger className="w-full font-bold">
+                                    <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select a payment term">
                                             {getDisplayValue() || 'Select a payment term'}
                                         </SelectValue>{' '}
@@ -150,6 +171,61 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                         <div>
                             <h1 className="font-semibold text-[#777F98]">Item List</h1>
                         </div>
+
+                        <div className="flex items-center justify-between">
+                            <h1 className="text-tertiary w-2/3">Item Name</h1>
+
+                            <div className="flex w-2/3 justify-center gap-8">
+                                <h1 className="text-tertiary">Qty.</h1>
+                                <h1 className="text-tertiary w-2/3">Price</h1>
+                            </div>
+
+                            <h1 className="text-tertiary mr-2 w-1/3">Total</h1>
+                        </div>
+
+                        {items.map((item, index) => (
+                            <div key={index} className="flex items-center gap-4">
+                                <Input
+                                    type="text"
+                                    value={item.name}
+                                    onChange={(e) => updateItem(index, 'name', e.target.value)}
+                                    placeholder="Item name"
+                                    className="w-2/3"
+                                />
+
+                                <div className="flex justify-center gap-4">
+                                    <Input
+                                        type="text"
+                                        value={item.quantity}
+                                        onChange={(e) => updateItem(index, 'quantity', (parseInt(e.target.value) || 0).toString())}
+                                        min="1"
+                                        className="w-1/3 text-center"
+                                    />
+
+                                    <Input
+                                        type="text"
+                                        value={item.price}
+                                        onChange={(e) => updateItem(index, 'price', (parseFloat(e.target.value) || 0).toString())}
+                                        min="0"
+                                        step="0.01"
+                                        className="w-2/3"
+                                    />
+                                </div>
+
+                                <div className="w-1/3">
+                                    <span className="font-medium">${calculateTotal(item).toFixed(2)}</span>
+                                </div>
+
+                                <img src="/trash.png" alt="delete" className="cursor-pointer" onClick={() => removeItem(index)} />
+                            </div>
+                        ))}
+
+                        <Button
+                            className="text-tertiary dark:text-tertiary rounded-4xl bg-[#f9fafe] py-7 font-semibold hover:bg-[#f9fafe] dark:bg-[#252945]"
+                            onClick={addNewItem}
+                        >
+                            + Add New Item
+                        </Button>
                     </div>
 
                     <div className="flex items-center justify-between">
