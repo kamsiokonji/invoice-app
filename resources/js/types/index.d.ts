@@ -65,14 +65,21 @@ export interface Customer {
     zip: string;
     country: string;
 }
-export interface InvoiceItem {
+export interface InvoiceForm {
     id: number;
-    description: string;
+    description?: string;
     quantity: number;
-    unit_price: number;
+    price: number;
     total: number;
     created_at: string;
     updated_at: string;
     invoice_id: number;
     [key: string]: unknown; // This allows for additional properties...
+}
+
+export interface InvoiceItem {
+    name: string;
+    quantity: number;
+    price: number;
+    total?: number;
 }

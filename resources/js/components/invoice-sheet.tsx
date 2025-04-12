@@ -1,5 +1,5 @@
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 
 interface InvoiceSheetProps {
     title: string;
@@ -17,13 +17,13 @@ export function InvoiceSheet({ isOpen, onClose, children, title }: InvoiceSheetP
 
     return (
         <Sheet open={isOpen} onOpenChange={onChange}>
-            <SheetContent side="right" sidebarWidth="103px">
+            <SheetContent side="right" sidebarWidth="103px" aria-describedby="sheet-content">
                 <SheetHeader>
                     <SheetTitle className="text-xl font-bold">{title}</SheetTitle>
                 </SheetHeader>
 
                 <ScrollArea className="mt-4 h-[calc(100vh-200px)]">
-                    <SheetDescription>{children}</SheetDescription>
+                    <div className="px-10 py-6 text-sm">{children}</div>
                 </ScrollArea>
             </SheetContent>
         </Sheet>
