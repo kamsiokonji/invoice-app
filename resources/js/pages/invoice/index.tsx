@@ -11,7 +11,7 @@ import { useState } from 'react';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Invoices',
-        href: '/invoices',
+        href: '/',
     },
 ];
 

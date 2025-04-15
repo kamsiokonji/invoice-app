@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use Illuminate\Http\Request;
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -10,7 +10,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('invoice/index');
     })->name('invoice.index');
 
-    Route::get('/{id}', function (string $id) {
+    Route::get('/{id}/show', function (string $id) {
         return Inertia::render('invoice/show', [
             'id' => $id
         ]);
