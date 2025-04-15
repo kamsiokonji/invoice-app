@@ -148,14 +148,14 @@ export default function ShowInvoice() {
                     {isMobile && (
                         <div className="bg-card p-6">
                             <div className="flex gap-3">
-                                <Button className="text-tertiary flex w-1/3 justify-center rounded-3xl bg-[#f9fafe] py-6 font-semibold hover:bg-[#f9fafe] dark:text-[#888eb0]">
+                                <Button className="text-tertiary w-1/3 rounded-3xl bg-[#f9fafe] py-6 font-semibold hover:bg-[#f9fafe] dark:text-[#888eb0]">
                                     Edit
                                 </Button>
 
-                                <Button className="flex w-1/2 justify-center rounded-3xl py-6 font-semibold" variant={'destructive'}>
+                                <Button className="w-1/2 rounded-3xl py-6 font-semibold" variant={'destructive'}>
                                     Delete
                                 </Button>
-                                <Button className="flex w-1/2 justify-center rounded-3xl py-6 font-semibold">Mark as Paid</Button>
+                                <Button className="w-1/2 rounded-3xl py-6 font-semibold">Mark as Paid</Button>
                             </div>
                         </div>
                     )}
