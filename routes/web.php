@@ -1,20 +1,13 @@
 <?php
 
+use App\Http\Controllers\Invoice\InvoiceController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-use Illuminate\Http\Request;
+
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('invoice/index');
-    })->name('invoice.index');
-
-    Route::get('/{id}/show', function (string $id) {
-        return Inertia::render('invoice/show', [
-            'id' => $id
-        ]);
-    })->name('invoice.show');
+    Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
+    Route::resource('invoices', InvoiceController::class)->except('index', 'edit')->names('invoice');
 });
 
 require __DIR__ . '/settings.php';
