@@ -1,3 +1,4 @@
+import { DeleteInvoice } from '@/components/delete-invoice';
 import TextLink from '@/components/text-link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -5,10 +6,12 @@ import { Card } from '@/components/ui/card';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
 import { cn } from '@/lib/utils';
+import { useState } from 'react';
 
 export default function ShowInvoice() {
     const status = 'Paid';
     const isMobile = useIsMobile();
+    const [open, setOpen] = useState(false);
 
     return (
         <AppLayout>
@@ -34,7 +37,7 @@ export default function ShowInvoice() {
                                     Edit
                                 </Button>
 
-                                <Button className="rounded-3xl py-6 font-semibold" variant={'destructive'}>
+                                <Button className="rounded-3xl py-6 font-semibold" variant={'destructive'} onClick={() => setOpen(true)}>
                                     Delete
                                 </Button>
                                 <Button className="rounded-3xl py-6 font-semibold">Mark as Paid</Button>
@@ -161,6 +164,8 @@ export default function ShowInvoice() {
                     )}
                 </div>
             </div>
+
+            <DeleteInvoice open={open} onClose={() => setOpen(false)} onConfirm={() => {}} invoice_number={90219} />
         </AppLayout>
     );
 }
