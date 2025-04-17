@@ -1,5 +1,5 @@
 import AppearanceToggleDropdown from '@/components/appearance-dropdown';
-import { NavFooter } from '@/components/nav-footer';
+import { NavUser } from '@/components/nav-user';
 import {
     Sidebar,
     SidebarContent,
@@ -32,7 +32,7 @@ export function AppSidebar() {
             <SidebarSeparator />
 
             <SidebarFooter className="mx-auto">
-                <NavFooter />
+                <NavUser />
             </SidebarFooter>
         </Sidebar>
     );
