@@ -4,8 +4,8 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
 import CreateInvoice from '@/pages/invoice/create';
 import EditInvoice from '@/pages/invoice/edit';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { PageProps, type BreadcrumbItem } from '@/types';
+import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -20,6 +20,11 @@ export default function Invoices() {
     const [open, setOpen] = useState(false);
     const [edit, setEdit] = useState(false);
 
+    const { data } = usePage<PageProps>().props;
+
+    const invoices = data?.data || [];
+    const total = data?.meta.total || 0;
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Invoices" />
@@ -27,7 +32,7 @@ export default function Invoices() {
                 <div className="flex items-center justify-between">
                     <span>
                         <h1 className="text-2xl font-extrabold">Invoices</h1>
-                        <p className="text-sidebar-border text-xs">{isMobile ? '7 total invoices' : 'There are 7 total invoices'}</p>
+                        <p className="text-sidebar-border text-xs">{isMobile ? `${total} total invoices` : `There are ${total} total invoices`}</p>
                     </span>
 
                     <div className="flex items-center gap-2">
@@ -39,9 +44,24 @@ export default function Invoices() {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    {[1, 2, 3, 4].map((_, index) => (
-                        <InvoiceCard key={index} amount={2000} due_date="2023-06-01" invoice_number={90210} status={'Paid'} name="John Doe" />
-                    ))}
+                    {invoices.length === 0 ? (
+                        <div className="flex flex-col items-center gap-6">
+                            <img src="/empty-invoices.png" alt="empty-invoice" className="mx-auto size-60 object-contain" />
+                            <h1 className="text-lg font-semibold">There is nothing here</h1>
+                            <p className="text-tertiary text-xs">Create an invoice by clicking the New Invoice button and get started</p>
+                        </div>
+                    ) : (
+                        invoices.map((invoice, index) => (
+                            <InvoiceCard
+                                key={index}
+                                amount={invoice.items.find((item) => item.total)?.total || 0}
+                                due_date={invoice.due_date}
+                                invoice_number={invoice.invoice_number}
+                                status={invoice.status}
+                                name={invoice.customer.client_name}
+                            />
+                        ))
+                    )}
                 </div>
             </div>
 

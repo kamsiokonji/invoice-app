@@ -41,43 +41,73 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface Invoice {
+interface Invoice {
     id: number;
     invoice_number: number;
     status: string;
-    amount: number;
     due_date: string;
-    created_at: string;
-    updated_at: string;
+    project_description: string;
+    payment_terms: number;
+    created_at?: string;
+    updated_at?: string;
     customer: Customer;
     items: InvoiceItem[];
-    [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface Customer {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    city: string;
-    state: string;
-    zip: string;
-    country: string;
-}
-export interface InvoiceForm {
-    id: number;
-    description?: string;
-    quantity: number;
-    price: number;
+interface PaginationMeta {
+    current_page: number;
+    per_page: number;
+    from: number | null;
+    to: number | null;
+    path: string;
+    first_page_url: string;
+    prev_page_url: string | null;
+    next_page_url: string | null;
     total: number;
-    created_at: string;
-    updated_at: string;
-    invoice_id: number;
-    [key: string]: unknown; // This allows for additional properties...
 }
 
-export interface InvoiceItem {
+interface Customer {
+    id: number;
+    client_name: string;
+    client_email: string;
+    to_address: string;
+    from_address: string;
+    to_city: string;
+    from_city: string;
+    to_zipcode: string;
+    from_zipcode: string;
+    to_country: string;
+    from_country: string;
+}
+
+interface InvoiceData {
+    data: Invoice[];
+    meta: PaginationMeta;
+}
+
+interface PageProps extends SharedData {
+    data: InvoiceData;
+}
+interface InvoiceForm {
+    status: string;
+    due_date: string;
+    project_description: string;
+    payment_terms: string | number;
+    items: InvoiceItem[];
+    from_address: string;
+    from_city: string;
+    from_zipcode: string;
+    from_country: string;
+    to_address: string;
+    to_city: string;
+    to_zipcode: string;
+    to_country: string;
+    client_name: string;
+    client_email: string;
+    [key: string]: FormDataConvertible;
+}
+
+interface InvoiceItem {
     name: string;
     quantity: number;
     price: number;
