@@ -1,4 +1,3 @@
-import { DateRangePicker } from '@/components/date-range-picker';
 import { InvoiceSheet } from '@/components/invoice-sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -113,7 +112,7 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
                                 <Label className="text-tertiary text-xs" htmlFor="invoice-date">
                                     Invoice Date
                                 </Label>
-                                <DateRangePicker />
+                                <Input type="date" placeholder="Invoice Date" id="due_date" />
                             </div>
 
                             <div className="flex flex-col gap-1">

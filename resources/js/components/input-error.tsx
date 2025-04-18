@@ -3,7 +3,7 @@ import { type HTMLAttributes } from 'react';
 
 export default function InputError({ message, className = '', ...props }: HTMLAttributes<HTMLParagraphElement> & { message?: string }) {
     return message ? (
-        <p {...props} className={cn('text-destructive text-sm', className)}>
+        <p {...props} className={cn('text-destructive text-xs', className)}>
             {message}
         </p>
     ) : null;

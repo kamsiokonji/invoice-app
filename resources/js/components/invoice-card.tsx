@@ -14,7 +14,7 @@ interface InvoiceCardProps {
 export function InvoiceCard({ amount, due_date, invoice_number, status, name }: InvoiceCardProps) {
     return (
         <Link href={route('invoice.show', invoice_number)}>
-            <Card className="cursor-pointer border-none p-6">
+            <Card className="hover:border-primary cursor-pointer border-none p-6">
                 <div className="flex items-start justify-between text-sm md:items-center">
                     <div className="flex flex-col items-start justify-around gap-6 md:flex-row md:items-center">
                         <span className="flex items-center text-lg font-bold">
@@ -33,8 +33,8 @@ export function InvoiceCard({ amount, due_date, invoice_number, status, name }: 
                     <div className="flex flex-col items-center gap-10 md:flex-row">
                         <p className="text-lg font-extrabold">£ {amount.toFixed(2)}</p>
 
-                        <Badge variant={status === 'Paid' ? 'success' : 'pending'} className="flex items-center gap-2 font-bold">
-                            <span className={cn('h-2 w-2 rounded-full', status === 'Paid' ? 'bg-[#33D69F]' : 'bg-[#FF8F00]')} />
+                        <Badge variant={status === 'paid' ? 'success' : 'pending'} className="flex items-center gap-2 font-bold">
+                            <span className={cn('h-2 w-2 rounded-full', status === 'paid' ? 'bg-[#33D69F]' : 'bg-[#FF8F00]')} />
 
                             <span>{status}</span>
                         </Badge>
