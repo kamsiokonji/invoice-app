@@ -40,6 +40,7 @@ class UpdateInvoiceRequest extends FormRequest
             'items.*.name' => 'nullable|string',
             'items.*.quantity' => 'nullable|min:1',
             'items.*.price' => 'nullable|integer',
+            'status' => 'nullable|in:pending,paid,draft',
         ];
     }
 }

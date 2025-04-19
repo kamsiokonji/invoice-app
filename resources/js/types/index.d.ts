@@ -26,6 +26,11 @@ export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
+    data: Invoice;
+    flash: {
+        success?: string | null;
+        error?: string | null;
+    };
     ziggy: Config & { location: string };
     [key: string]: unknown;
 }
@@ -48,9 +53,19 @@ interface Invoice {
     due_date: string;
     project_description: string;
     payment_terms: number;
-    created_at?: string;
-    updated_at?: string;
-    customer: Customer;
+    created_at: string;
+    updated_at: string;
+    client_name: string;
+    client_email: string;
+    to_address: string;
+    from_address: string;
+    to_city: string;
+    from_city: string;
+    to_zipcode: string;
+    from_zipcode: string;
+    to_country: string;
+    from_country: string;
+    total_amount: number;
     items: InvoiceItem[];
 }
 
@@ -66,20 +81,6 @@ interface PaginationMeta {
     total: number;
 }
 
-interface Customer {
-    id: number;
-    client_name: string;
-    client_email: string;
-    to_address: string;
-    from_address: string;
-    to_city: string;
-    from_city: string;
-    to_zipcode: string;
-    from_zipcode: string;
-    to_country: string;
-    from_country: string;
-}
-
 interface InvoiceData {
     data: Invoice[];
     meta: PaginationMeta;
@@ -89,7 +90,6 @@ interface PageProps extends SharedData {
     data: InvoiceData;
 }
 interface InvoiceForm {
-    status: string;
     due_date: string;
     project_description: string;
     payment_terms: string | number;
@@ -104,6 +104,7 @@ interface InvoiceForm {
     to_country: string;
     client_name: string;
     client_email: string;
+    id?: number;
     [key: string]: FormDataConvertible;
 }
 

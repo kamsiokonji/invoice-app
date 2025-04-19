@@ -19,10 +19,8 @@ export function Modal ({isOpen, onClose, children, title}: ModalProps) {
     return (
         <Dialog open={isOpen} onOpenChange={onChange}>
             <DialogContent>
-                <DialogTitle>{title}</DialogTitle>
-                <DialogDescription>
+                <DialogTitle className='text-2xl'>{title}</DialogTitle>
                     {children}
-                </DialogDescription>
             </DialogContent>
         </Dialog>
     )
