@@ -16,7 +16,7 @@ interface EditInvoiceProps {
 export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
     const { data: invoice } = usePage<SharedData>().props;
 
-    const { data, setData, patch, processing, reset, clearErrors } = useForm<InvoiceForm>({
+    const { data, setData, patch, processing, clearErrors } = useForm<InvoiceForm>({
         due_date: invoice.due_date,
         project_description: invoice.project_description,
         payment_terms: invoice.payment_terms,
