@@ -54,11 +54,12 @@ export default function Invoices() {
                         invoices.map((invoice, index) => (
                             <InvoiceCard
                                 key={index}
-                                amount={invoice.items.find((item) => item.total)?.total || 0}
+                                id={invoice.id}
+                                amount={invoice.total_amount}
                                 due_date={invoice.due_date}
                                 invoice_number={invoice.invoice_number}
                                 status={invoice.status}
-                                name={invoice.customer.client_name}
+                                name={invoice?.client_name}
                             />
                         ))
                     )}

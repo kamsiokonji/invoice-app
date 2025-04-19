@@ -5,10 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { paymentTerms } from '@/lib/constants';
-import { InvoiceForm } from '@/types';
+import { InvoiceForm, InvoiceItem } from '@/types';
 import { useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import React, { FormEventHandler } from 'react';
 
 interface CreateInvoiceProps {
     isOpen: boolean;
@@ -17,11 +17,10 @@ interface CreateInvoiceProps {
 
 export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm<InvoiceForm>({
-        status: 'draft',
         due_date: '',
         project_description: '',
         payment_terms: '',
-        items: [],
+        items: [] as InvoiceItem[],
         from_address: '',
         from_city: '',
         from_zipcode: '',
@@ -76,9 +75,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('invoice.store'), {
-            onFinish: () => reset(),
-            onSuccess: () => onClose(),
-            preserveScroll: true,
+            onSuccess: () => closeForm(),
         });
     };
 
@@ -89,7 +86,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
     };
 
     return (
-        <InvoiceSheet title="New Invoice" isOpen={isOpen} onClose={onClose}>
+        <InvoiceSheet title="New Invoice" isOpen={isOpen} onClose={closeForm}>
             <div className="flex flex-col gap-4">
                 <form className="space-y-12" onSubmit={submit}>
                     <div className="flex flex-col gap-4">
@@ -260,13 +257,13 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                         <div className="grid-cols grid gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
                                 <Label className="text-tertiary flex items-center justify-between text-xs" htmlFor="invoice-date">
-                                    Invoice Date
+                                    Invoice Due Date
                                     <InputError message={errors.due_date} />
                                 </Label>
                                 <Input
                                     type="date"
                                     placeholder="Invoice Date"
-                                    className={`${errors.due_date} ? 'border-destructive' : '' w-full`}
+                                    className={`${errors.due_date} ? 'border-destructive' : ''`}
                                     onChange={(e) => setData('due_date', e.target.value)}
                                     value={data.due_date}
                                     id="due_date"

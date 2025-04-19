@@ -9,12 +9,13 @@ interface InvoiceCardProps {
     amount: number;
     due_date: string;
     name?: string;
+    id?: number;
 }
 
-export function InvoiceCard({ amount, due_date, invoice_number, status, name }: InvoiceCardProps) {
+export function InvoiceCard({ amount, due_date, invoice_number, status, name, id }: InvoiceCardProps) {
     return (
-        <Link href={route('invoice.show', invoice_number)}>
-            <Card className="hover:border-primary cursor-pointer border-none p-6">
+        <Link href={route('invoice.show', id)}>
+            <Card className="hover:border-primary cursor-pointer p-6">
                 <div className="flex items-start justify-between text-sm md:items-center">
                     <div className="flex flex-col items-start justify-around gap-6 md:flex-row md:items-center">
                         <span className="flex items-center text-lg font-bold">
@@ -27,16 +28,16 @@ export function InvoiceCard({ amount, due_date, invoice_number, status, name }: 
                             <p className="dark:text-[#dfe3fa]">{due_date}</p>
                         </span>
 
-                        <p className="text-[#858BB2] md:ml-9 dark:text-white">{name}</p>
+                        <p className="text-[#858BB2] capitalize dark:text-white">{name}</p>
                     </div>
 
                     <div className="flex flex-col items-center gap-10 md:flex-row">
-                        <p className="text-lg font-extrabold">£ {amount.toFixed(2)}</p>
+                        <p className="text-lg font-extrabold">£ {amount.toFixed(2) ?? 0}</p>
 
                         <Badge variant={status === 'paid' ? 'success' : 'pending'} className="flex items-center gap-2 font-bold">
                             <span className={cn('h-2 w-2 rounded-full', status === 'paid' ? 'bg-[#33D69F]' : 'bg-[#FF8F00]')} />
 
-                            <span>{status}</span>
+                            <span className="capitalize">{status}</span>
                         </Badge>
 
                         <img src="/arrow.png" alt="right-arrrow" className="hidden md:block" />

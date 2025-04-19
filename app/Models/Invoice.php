@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Invoice extends Model
 {
     use SoftDeletes;
-    protected $table = 'invoices';
 
     protected $fillable = [
         'invoice_number',
@@ -25,10 +24,13 @@ class Invoice extends Model
         'client_name',
         'client_email',
         'due_date',
-        'payment_terms'
+        'payment_terms',
+        'total_amount',
+        'status',
     ];
 
-    public function items(): HasMany {
+    public function items(): HasMany
+    {
         return $this->hasMany(InvoiceItem::class);
     }
 }

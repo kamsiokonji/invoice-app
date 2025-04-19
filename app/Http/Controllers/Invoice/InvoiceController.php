@@ -52,9 +52,16 @@ class InvoiceController extends Controller
     public function store(CreateInvoiceRequest $request)
     {
         $data = $request->validated();
+
+        $invoiceTotal = 0;
+        foreach ($data['items'] as $item) {
+            $invoiceTotal += $item['quantity'] * $item['price'];
+        }
+
         $invoice = Invoice::create([
             ...$data,
-            'invoice_number' => Carbon::now()->format('vsih')
+            'invoice_number' => Carbon::now()->format('vsih'),
+            'total_amount' => $invoiceTotal,
         ]);
 
         foreach ($data['items'] as $item) {
@@ -67,11 +74,7 @@ class InvoiceController extends Controller
             ]);
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Invoice has been created!',
-            'data' => $invoice
-        ]);
+        return redirect()->route('invoice.index')->with('success', 'Invoice has been created!');
     }
 
     /**
@@ -79,9 +82,13 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        $invoice::with('items')->findOrFail($invoice->id);
-        inertia('invoice/show', compact('invoice'));
+        $invoice->load('items'); // Proper way to load relation
+
+        return inertia('invoice/show', [
+            'data' => $invoice
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -98,21 +105,26 @@ class InvoiceController extends Controller
     {
         $data = $request->validated();
 
-        $invoice->update([...$data]);
+        $invoiceTotal = 0;
 
         foreach ($data['items'] as $item) {
-            InvoiceItem::update([
+            InvoiceItem::where('id', $item['id'])->update([
                 'name' => $item['name'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
                 'total' => $item['quantity'] * $item['price']
             ]);
+
+            $invoiceTotal += $item['quantity'] * $item['price'];
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Invoice has been updated!',
-        ]);
+        $data['total_amount'] = $invoiceTotal;
+
+        $data['status'] ??= $invoice->status;
+
+        $invoice->update($data);
+
+        return redirect()->route('invoice.index')->with('success', 'Invoice has been updated!');
     }
 
     public function updateInvoiceStatus(Request $request, Invoice $invoice)
@@ -121,10 +133,7 @@ class InvoiceController extends Controller
             'status' => $request->status
         ]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Invoice status has been updated!',
-        ])->isRedirect(route('invoice.index'));
+        return redirect()->route('invoice.index')->with('success', 'Invoice status has been updated!');
     }
 
     /**
@@ -134,9 +143,6 @@ class InvoiceController extends Controller
     {
         $invoice->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Invoice has been deleted!',
-        ])->isRedirect(route('invoice.index'));
+        return redirect()->route('invoice.index')->with('success', 'Invoice has been deleted!');
     }
 }
