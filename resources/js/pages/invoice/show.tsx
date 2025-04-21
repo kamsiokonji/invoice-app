@@ -61,9 +61,20 @@ export default function ShowInvoice() {
                         <div className={isMobile ? '' : 'flex items-center justify-between'}>
                             <div className="flex items-center justify-between gap-3">
                                 <h1 className="text-tertiary text-sm">Status</h1>
-                                <Badge variant={data?.status === 'paid' ? 'success' : 'pending'} className="flex items-center gap-2 font-bold">
-                                    <span className={cn('h-2 w-2 rounded-full', data?.status === 'paid' ? 'bg-[#33D69F]' : 'bg-[#FF8F00]')} />
-
+                                <Badge
+                                    variant={data?.status === 'paid' ? 'success' : data?.status === 'draft' ? 'draft' : 'pending'}
+                                    className="flex items-center gap-2 font-bold"
+                                >
+                                    <span
+                                        className={cn(
+                                            'h-2 w-2 rounded-full',
+                                            data?.status === 'paid'
+                                                ? 'bg-[#33D69F]'
+                                                : data?.status === 'pending'
+                                                  ? 'bg-[#FF8F00]'
+                                                  : 'bg-[#373B53] dark:bg-[#dfe3fa]',
+                                        )}
+                                    />
                                     <span className="capitalize">{data?.status}</span>
                                 </Badge>
                             </div>
@@ -204,10 +215,12 @@ export default function ShowInvoice() {
                                     Edit
                                 </Button>
 
-                                <Button className="w-1/2 rounded-3xl py-6 font-semibold" variant={'destructive'}>
+                                <Button className="w-1/2 rounded-3xl py-6 font-semibold" variant={'destructive'} onClick={() => setOpen(true)}>
                                     Delete
                                 </Button>
-                                <Button className="w-1/2 rounded-3xl py-6 font-semibold">Mark as Paid</Button>
+                                <Button className="w-1/2 rounded-3xl py-6 font-semibold" disabled={processingStatus} onClick={updateStatus}>
+                                    Mark as Paid
+                                </Button>
                             </div>
                         </div>
                     )}

@@ -380,7 +380,13 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                         </Button>
 
                         <div className="flex gap-2">
-                            <Button className="rounded-3xl bg-[#373b53] py-6 font-semibold text-[#888eb0] hover:bg-[#373b53]" type="button">
+                            <Button
+                                className="rounded-3xl bg-[#373b53] py-6 font-semibold text-[#888eb0] hover:bg-[#373b53]"
+                                type="submit"
+                                onClick={() => setData('status', 'draft')}
+                                disabled={processing}
+                            >
+                                {/* {processing && <LoaderCircle className="h-4 w-4 animate-spin" />} */}
                                 Save as Draft
                             </Button>
                             <Button className="rounded-3xl py-6 font-semibold" type="submit" disabled={processing}>

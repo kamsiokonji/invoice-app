@@ -34,8 +34,16 @@ export function InvoiceCard({ amount, due_date, invoice_number, status, name, id
                     <div className="flex flex-col items-center gap-10 md:flex-row">
                         <p className="text-lg font-extrabold">£ {amount.toFixed(2) ?? 0}</p>
 
-                        <Badge variant={status === 'paid' ? 'success' : 'pending'} className="flex items-center gap-2 font-bold">
-                            <span className={cn('h-2 w-2 rounded-full', status === 'paid' ? 'bg-[#33D69F]' : 'bg-[#FF8F00]')} />
+                        <Badge
+                            variant={status === 'paid' ? 'success' : status === 'pending' ? 'pending' : 'draft'}
+                            className="flex items-center gap-2 font-bold"
+                        >
+                            <span
+                                className={cn(
+                                    'h-2 w-2 rounded-full',
+                                    status === 'paid' ? 'bg-[#33D69F]' : status === 'pending' ? 'bg-[#FF8F00]' : 'bg-[#373B53] dark:bg-[#dfe3fa]',
+                                )}
+                            />
 
                             <span className="capitalize">{status}</span>
                         </Badge>

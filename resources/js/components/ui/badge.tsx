@@ -21,6 +21,8 @@ const badgeVariants = cva(
             "bg-success text-success-foreground border-success",
         pending:
             "bg-pending text-pending-foreground border-pending",
+        draft:
+            "bg-draft text-draft-foreground border-draft",
       },
     },
     defaultVariants: {
