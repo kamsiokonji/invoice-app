@@ -40,6 +40,7 @@ class CreateInvoiceRequest extends FormRequest
             'items.*.name' => 'required|string',
             'items.*.quantity' => 'required|min:1',
             'items.*.price' => 'required|integer',
+            'status' => 'nullable|in:pending,draft,paid',
         ];
     }
 

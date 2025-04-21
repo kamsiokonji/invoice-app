@@ -63,6 +63,9 @@
 
     --color-pending: var(--pending);
     --color-pending-foreground: var(--pending-foreground);
+
+    --color-draft: var(--draft);
+    --color-draft-foreground: var(--draft-foreground);
 }
 
 /*
@@ -135,6 +138,9 @@
 
     --pending: oklch(0.98 0.013 71.33);
     --pending-foreground: oklch(0.76 0.177697 59.6859);
+
+    --draft: oklch(0.96 0.0027 286.35);
+    --draft-foreground: oklch(0.36 0.0419 276.76);
 }
 
 .dark {
@@ -187,6 +193,9 @@
 
     --pending: oklch(0.28 0.0277 296.83);
     --pending-foreground: oklch(0.76 0.177697 59.6859);
+
+    --draft: oklch(0.3 0.0436 277.98);
+    --draft-foreground: oklch(0.92 0.0315 277.91);
 }
 
 @layer base {
