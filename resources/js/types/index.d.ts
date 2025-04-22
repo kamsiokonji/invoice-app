@@ -84,6 +84,9 @@ interface PaginationMeta {
 interface InvoiceData {
     data: Invoice[];
     meta: PaginationMeta;
+    filters: {
+        status: string;
+    };
 }
 
 interface PageProps extends SharedData {
@@ -113,4 +116,5 @@ interface InvoiceItem {
     quantity: number;
     price: number;
     total?: number;
+    id?: number;
 }

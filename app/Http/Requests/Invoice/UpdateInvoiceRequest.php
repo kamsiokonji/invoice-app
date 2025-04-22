@@ -37,6 +37,7 @@ class UpdateInvoiceRequest extends FormRequest
             'payment_terms' => 'nullable|integer',
             'project_description' => 'nullable',
             'items' => 'nullable|array',
+            'items.*.id' => 'nullable|integer|exists:invoice_items,id',
             'items.*.name' => 'nullable|string',
             'items.*.quantity' => 'nullable|min:1',
             'items.*.price' => 'nullable|integer',
