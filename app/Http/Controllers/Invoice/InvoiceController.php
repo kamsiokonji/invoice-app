@@ -15,10 +15,18 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginator = Invoice::with('items')->latest()->simplePaginate(10);
-        $total = Invoice::count();
+        $status = $request->query('status');
+
+        $query = Invoice::with('items')->latest();
+
+        if ($status) {
+            $query->where('status', $status);
+        }
+
+        $paginator = $query->simplePaginate(10);
+        $total = $query->count();
 
         $data = [
             'data' => $paginator->items(),
@@ -32,6 +40,9 @@ class InvoiceController extends Controller
                 'prev_page_url' => $paginator->previousPageUrl(),
                 'next_page_url' => $paginator->nextPageUrl(),
                 'total' => $total
+            ],
+            'filters' => [
+                'status' => $status
             ]
         ];
 
@@ -108,19 +119,29 @@ class InvoiceController extends Controller
         $invoiceTotal = 0;
 
         foreach ($data['items'] as $item) {
-            InvoiceItem::where('id', $item['id'])->update([
-                'name' => $item['name'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'total' => $item['quantity'] * $item['price']
-            ]);
+            if (isset($item['id'])) {
+                InvoiceItem::where('id', $item['id'])->update([
+                    'name' => $item['name'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'total' => $item['quantity'] * $item['price']
+                ]);
 
-            $invoiceTotal += $item['quantity'] * $item['price'];
+                $invoiceTotal += $item['quantity'] * $item['price'];
+            } else {
+                // Create new item for this invoice
+                $invoice->items()->create([
+                    'name' => $item['name'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price'],
+                    'total' => $item['quantity'] * $item['price'],
+                ]);
+
+                $invoiceTotal += $item['quantity'] * $item['price'];
+            }
         }
 
         $data['total_amount'] = $invoiceTotal;
-
-        $data['status'] ??= $invoice->status;
 
         $invoice->update($data);
 

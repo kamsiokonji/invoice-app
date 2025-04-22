@@ -109,10 +109,10 @@ export default function ShowInvoice() {
                             </div>
 
                             <div className="text-tertiary space-y-1 text-start text-sm md:text-end">
-                                <h1>{data?.from_address}</h1>
-                                <h1>{data?.from_city}</h1>
+                                <h1 className="capitalize">{data?.from_address}</h1>
+                                <h1 className="capitalize">{data?.from_city}</h1>
                                 <h1>{data?.from_zipcode}</h1>
-                                <h1>{data?.from_country}</h1>
+                                <h1 className="capitalize">{data?.from_country}</h1>
                             </div>
                         </div>
 
@@ -140,10 +140,10 @@ export default function ShowInvoice() {
                             </div>
 
                             <div className="text-tertiary space-y-1 text-sm">
-                                <h1>{data?.to_address}</h1>
-                                <h1>{data?.to_city}</h1>
+                                <h1 className="capitalize">{data?.to_address}</h1>
+                                <h1 className="capitalize">{data?.to_city}</h1>
                                 <h1>{data?.to_zipcode}</h1>
-                                <h1>{data?.to_country}</h1>
+                                <h1 className="capitalize">{data?.to_country}</h1>
                             </div>
                         </div>
 

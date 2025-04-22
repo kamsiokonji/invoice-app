@@ -89,7 +89,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
         <InvoiceSheet title="New Invoice" isOpen={isOpen} onClose={closeForm}>
             <div className="flex flex-col gap-4">
                 <form className="space-y-12" onSubmit={submit}>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div>
                             <h1 className="text-primary-foreground font-semibold">Bill From</h1>
                         </div>
@@ -156,7 +156,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div>
                             <h1 className="text-primary-foreground font-semibold">Bill To</h1>
                         </div>
@@ -253,7 +253,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div className="grid-cols grid gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
                                 <Label className="text-tertiary flex items-center justify-between text-xs" htmlFor="invoice-date">

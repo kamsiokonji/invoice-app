@@ -1,11 +1,12 @@
 import { InvoiceCard } from '@/components/invoice-card';
 import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
 import CreateInvoice from '@/pages/invoice/create';
 import EditInvoice from '@/pages/invoice/edit';
 import { PageProps, type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -25,6 +26,14 @@ export default function Invoices() {
     const invoices = data?.data || [];
     const total = data?.meta.total || 0;
 
+    const handleStatusChange = (value: string) => {
+        router.get(route('invoice.index'), {
+            status: value === 'all' ? null : value,
+        });
+    };
+
+    const selectedStatus = data?.filters?.status || 'all';
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Invoices" />
@@ -35,9 +44,20 @@ export default function Invoices() {
                         <p className="text-sidebar-border text-xs">{isMobile ? `${total} total invoices` : `There are ${total} total invoices`}</p>
                     </span>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-6">
+                        <Select value={selectedStatus ?? 'all'} onValueChange={handleStatusChange}>
+                            <SelectTrigger className="w-32 border-0 border-none dark:bg-transparent">
+                                <SelectValue placeholder={isMobile ? 'Filter' : 'Filter by status'}></SelectValue>{' '}
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="paid">Paid</SelectItem>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="draft">Draft</SelectItem>
+                            </SelectContent>
+                        </Select>
                         <Button className="h-12 rounded-3xl px-3 text-xs font-bold text-white" onClick={() => setOpen(true)}>
-                            <img src="/plus.png" alt="" />
+                            <img src="/plus.png" alt="plus" />
                             {isMobile ? 'New' : 'New Invoice'}
                         </Button>
                     </div>

@@ -16,7 +16,7 @@ interface EditInvoiceProps {
 export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
     const { data: invoice } = usePage<SharedData>().props;
 
-    const { data, setData, patch, processing, clearErrors } = useForm<InvoiceForm>({
+    const { data, setData, put, processing, clearErrors } = useForm<InvoiceForm>({
         due_date: invoice.due_date,
         project_description: invoice.project_description,
         payment_terms: invoice.payment_terms,
@@ -77,9 +77,19 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        patch(route('invoice.update', invoice?.id), {
+        put(route('invoice.update', invoice?.id), {
             onSuccess: () => closeForm(),
         });
+    };
+
+    const addNewItem = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const currentItems = data.items || [];
+
+        const updatedItems = [...currentItems, { name: '', quantity: 1, price: 0 }];
+
+        setData('items', updatedItems);
     };
 
     const closeForm = () => {
@@ -91,7 +101,7 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
         <InvoiceSheet title="Edit Invoice" isOpen={isOpen} onClose={onClose}>
             <div className="flex flex-col gap-4">
                 <form className="space-y-12" onSubmit={submit}>
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div>
                             <h1 className="text-primary-foreground font-semibold">Bill From</h1>
                         </div>
@@ -150,7 +160,7 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div>
                             <h1 className="text-primary-foreground font-semibold">Bill To</h1>
                         </div>
@@ -234,7 +244,7 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-6">
                         <div className="grid-cols grid gap-4 md:grid-cols-2">
                             <div className="flex flex-col gap-1">
                                 <Label className="text-tertiary text-xs" htmlFor="invoice-date">
@@ -337,16 +347,24 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
                                   </div>
                               ))
                             : 'No items found'}
+
+                        <Button
+                            className="text-tertiary dark:text-tertiary rounded-4xl bg-[#f9fafe] py-7 font-semibold hover:bg-[#f9fafe] dark:bg-[#252945]"
+                            onClick={addNewItem}
+                        >
+                            + Add New Item
+                        </Button>
                     </div>
 
                     <div className="flex items-center justify-end gap-2">
                         <Button
                             onClick={closeForm}
                             className="text-tertiary rounded-3xl bg-[#f9fafe] py-6 font-semibold hover:bg-[#f9fafe] dark:text-[#888eb0]"
+                            type="button"
                         >
                             Cancel
                         </Button>{' '}
-                        <Button className="rounded-3xl py-6 font-semibold" disabled={processing}>
+                        <Button className="rounded-3xl py-6 font-semibold" disabled={processing} type="submit">
                             {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                             Save Changes
                         </Button>
