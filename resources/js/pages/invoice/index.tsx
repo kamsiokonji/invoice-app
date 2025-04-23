@@ -1,4 +1,5 @@
 import { InvoiceCard } from '@/components/invoice-card';
+import { Paginator } from '@/components/paginator';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -25,6 +26,7 @@ export default function Invoices() {
 
     const invoices = data?.data || [];
     const total = data?.meta.total || 0;
+    const meta = data?.meta;
 
     const handleStatusChange = (value: string) => {
         router.get(route('invoice.index'), {
@@ -71,17 +73,22 @@ export default function Invoices() {
                             <p className="text-tertiary text-xs">Create an invoice by clicking the New Invoice button and get started</p>
                         </div>
                     ) : (
-                        invoices.map((invoice, index) => (
-                            <InvoiceCard
-                                key={index}
-                                id={invoice.id}
-                                amount={invoice.total_amount}
-                                due_date={invoice.due_date}
-                                invoice_number={invoice.invoice_number}
-                                status={invoice.status}
-                                name={invoice?.client_name}
-                            />
-                        ))
+                        <>
+                            {invoices.map((invoice, index) => (
+                                <InvoiceCard
+                                    key={index}
+                                    id={invoice.id}
+                                    amount={invoice.total_amount}
+                                    due_date={invoice.due_date}
+                                    invoice_number={invoice.invoice_number}
+                                    status={invoice.status}
+                                    name={invoice?.client_name}
+                                />
+                            ))}
+                            <div className="mt-4 flex gap-2">
+                                <Paginator meta={data.meta} />
+                            </div>
+                        </>
                     )}
                 </div>
             </div>

@@ -25,8 +25,7 @@ class InvoiceController extends Controller
             $query->where('status', $status);
         }
 
-        $paginator = $query->simplePaginate(10);
-        $total = $query->count();
+        $paginator = $query->paginate(2)->appends($request->except('page'));
 
         $data = [
             'data' => $paginator->items(),
@@ -39,7 +38,9 @@ class InvoiceController extends Controller
                 'first_page_url' => $paginator->url(1),
                 'prev_page_url' => $paginator->previousPageUrl(),
                 'next_page_url' => $paginator->nextPageUrl(),
-                'total' => $total
+                'total' => $paginator->total(),
+                'last_page' => $paginator->lastPage(),
+                'links' => $paginator->linkCollection()
             ],
             'filters' => [
                 'status' => $status
