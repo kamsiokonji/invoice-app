@@ -69,6 +69,12 @@ interface Invoice {
     items: InvoiceItem[];
 }
 
+interface PaginationLinks {
+    url: string;
+    label: string;
+    active: boolean;
+}
+
 interface PaginationMeta {
     current_page: number;
     per_page: number;
@@ -79,6 +85,8 @@ interface PaginationMeta {
     prev_page_url: string | null;
     next_page_url: string | null;
     total: number;
+    links: PaginationLinks[];
+    last_page: number;
 }
 
 interface InvoiceData {
