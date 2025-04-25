@@ -25,7 +25,7 @@ class InvoiceController extends Controller
             $query->where('status', $status);
         }
 
-        $paginator = $query->paginate(2)->appends($request->except('page'));
+        $paginator = $query->paginate(10);
 
         $data = [
             'data' => $paginator->items(),

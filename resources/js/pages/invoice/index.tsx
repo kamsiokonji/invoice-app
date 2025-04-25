@@ -85,8 +85,8 @@ export default function Invoices() {
                                     name={invoice?.client_name}
                                 />
                             ))}
-                            <div className="mt-4 flex gap-2">
-                                <Paginator meta={data.meta} />
+                            <div className="mt-4 flex">
+                                <Paginator meta={meta} />
                             </div>
                         </>
                     )}
