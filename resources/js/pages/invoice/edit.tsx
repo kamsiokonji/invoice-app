@@ -1,3 +1,4 @@
+import InputError from '@/components/input-error';
 import { InvoiceSheet } from '@/components/invoice-sheet';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,7 +17,7 @@ interface EditInvoiceProps {
 export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
     const { data: invoice } = usePage<SharedData>().props;
 
-    const { data, setData, put, processing, clearErrors } = useForm<InvoiceForm>({
+    const { data, setData, put, processing, clearErrors, errors } = useForm<InvoiceForm>({
         due_date: invoice.due_date,
         project_description: invoice.project_description,
         payment_terms: invoice.payment_terms,
@@ -295,8 +296,9 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
                     </div>
 
                     <div className="flex flex-col gap-4">
-                        <div>
+                        <div className="flex items-center justify-between">
                             <h1 className="font-semibold text-[#777F98]">Item List</h1>
+                            <InputError message={errors.items} />
                         </div>
 
                         <div className="flex items-center justify-between">
