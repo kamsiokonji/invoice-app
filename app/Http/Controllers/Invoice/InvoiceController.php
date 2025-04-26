@@ -10,6 +10,7 @@ use App\Models\InvoiceItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceController extends Controller
 {
@@ -20,7 +21,7 @@ class InvoiceController extends Controller
     {
         $status = $request->query('status');
 
-        $query = Invoice::with('items')->latest();
+        $query = Auth::user()->invoices()->with('items')->latest();
 
         if ($status) {
             $query->where('status', $status);
@@ -67,11 +68,12 @@ class InvoiceController extends Controller
         $data = $request->validated();
 
         $invoiceTotal = 0;
+
         foreach ($data['items'] as $item) {
             $invoiceTotal += $item['quantity'] * $item['price'];
         }
 
-        $invoice = Invoice::create([
+        $invoice = Auth::user()->invoices()->create([
             ...$data,
             'invoice_number' => Carbon::now()->format('vsih'),
             'total_amount' => $invoiceTotal,
