@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -113,41 +114,60 @@ class InvoiceController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(UpdateInvoiceRequest $request, Invoice $invoice)
     {
         $data = $request->validated();
 
-        $invoiceTotal = 0;
+        DB::transaction(function () use ($data, $invoice) {
+            $invoiceTotal = 0;
 
-        foreach ($data['items'] as $item) {
-            if (isset($item['id'])) {
-                InvoiceItem::where('id', $item['id'])->update([
-                    'name' => $item['name'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'total' => $item['quantity'] * $item['price']
-                ]);
+            // Collect incoming item IDs (if any)
+            $incomingItemIds = collect($data['items'] ?? [])
+                ->pluck('id')
+                ->filter()
+                ->toArray();
 
-                $invoiceTotal += $item['quantity'] * $item['price'];
-            } else {
-                // Create new item for this invoice
-                $invoice->items()->create([
-                    'name' => $item['name'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['price'],
-                    'total' => $item['quantity'] * $item['price'],
-                ]);
+            // Delete items that were removed
+            $invoice->items()->whereNotIn('id', $incomingItemIds)->delete();
 
-                $invoiceTotal += $item['quantity'] * $item['price'];
+            // Loop through incoming items to update or create
+            foreach ($data['items'] ?? [] as $item) {
+                $quantity = $item['quantity'] ?? 0;
+                $price = $item['price'] ?? 0;
+                $total = $quantity * $price;
+
+                if (isset($item['id'])) {
+                    // Update existing item
+                    InvoiceItem::where('id', $item['id'])->update([
+                        'name' => $item['name'],
+                        'quantity' => $quantity,
+                        'price' => $price,
+                        'total' => $total,
+                    ]);
+                } else {
+                    // Create new item
+                    $invoice->items()->create([
+                        'name' => $item['name'],
+                        'quantity' => $quantity,
+                        'price' => $price,
+                        'total' => $total,
+                    ]);
+                }
+
+                $invoiceTotal += $total;
             }
-        }
 
-        $data['total_amount'] = $invoiceTotal;
+            // Update invoice total
+            $data['total_amount'] = $invoiceTotal;
 
-        $invoice->update($data);
+            // Update invoice fields
+            $invoice->update($data);
+        });
 
         return redirect()->route('invoice.index')->with('success', 'Invoice has been updated!');
     }
+
 
     public function updateInvoiceStatus(Request $request, Invoice $invoice)
     {

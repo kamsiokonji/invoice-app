@@ -222,7 +222,11 @@ export default function ShowInvoice() {
                                 <Button className="w-1/2 rounded-3xl py-6 font-semibold" variant={'destructive'} onClick={() => setOpen(true)}>
                                     Delete
                                 </Button>
-                                <Button className="w-1/2 rounded-3xl py-6 font-semibold" disabled={processingStatus} onClick={updateStatus}>
+                                <Button
+                                    className="w-1/2 rounded-3xl py-6 font-semibold"
+                                    disabled={processingStatus || data?.status === 'paid'}
+                                    onClick={updateStatus}
+                                >
                                     Mark as Paid
                                 </Button>
                             </div>

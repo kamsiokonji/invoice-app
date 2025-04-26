@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useRedirectIfAuthenticated } from '@/hooks/useRedirectIfAuthenticated';
 import AuthSplitLayout from '@/layouts/auth/auth-split-layout';
 
 type LoginForm = {
@@ -34,6 +35,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             onFinish: () => reset('password'),
         });
     };
+
+    useRedirectIfAuthenticated();
 
     return (
         <AuthSplitLayout title="Log in to your account" description="Enter your email and password below to log in">
