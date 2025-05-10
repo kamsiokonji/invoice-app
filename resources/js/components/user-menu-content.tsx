@@ -19,7 +19,6 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     <UserInfo user={user} />
                 </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
             {/*<DropdownMenuGroup>*/}
             {/*    <DropdownMenuItem asChild>*/}
             {/*        <Link className="block w-full" href={route('profile.edit')} as="button" prefetch onClick={cleanup}>*/}
