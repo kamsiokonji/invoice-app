@@ -76,6 +76,7 @@ export default function CreateInvoice({ isOpen, onClose }: CreateInvoiceProps) {
         e.preventDefault();
         post(route('invoice.store'), {
             onSuccess: () => closeForm(),
+            replace: true,
         });
     };
 

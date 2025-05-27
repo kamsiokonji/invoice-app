@@ -31,8 +31,8 @@ export default function ShowInvoice() {
         e.preventDefault();
 
         destroy(route('invoice.destroy', data?.id), {
-            preserveScroll: true,
             onSuccess: () => closeModal(),
+            replace: true,
         });
     };
 
@@ -41,6 +41,7 @@ export default function ShowInvoice() {
 
         patch(route('invoice.update.status', data?.id), {
             preserveScroll: true,
+            replace: true,
         });
     };
 

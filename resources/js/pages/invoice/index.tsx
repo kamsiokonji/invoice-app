@@ -31,6 +31,7 @@ export default function Invoices() {
     const handleStatusChange = (value: string) => {
         router.get(route('invoice.index'), {
             status: value === 'all' ? null : value,
+            replace: true,
         });
     };
 

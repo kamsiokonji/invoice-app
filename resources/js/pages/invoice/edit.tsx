@@ -80,6 +80,7 @@ export default function EditInvoice({ isOpen, onClose }: EditInvoiceProps) {
         e.preventDefault();
         put(route('invoice.update', invoice?.id), {
             onSuccess: () => closeForm(),
+            replace: true,
         });
     };
 
