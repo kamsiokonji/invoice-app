@@ -33,7 +33,6 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         post(route('login'), {
             onFinish: () => {
                 reset('password');
-                location.href = location.href;
             },
             replace: true,
         });

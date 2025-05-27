@@ -29,7 +29,6 @@ export default function Register() {
         post(route('register'), {
             onFinish: () => {
                 reset('password', 'password_confirmation');
-                location.href = location.href;
             },
             replace: true,
         });
